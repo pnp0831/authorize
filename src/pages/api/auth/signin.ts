@@ -39,7 +39,7 @@ export default async function handler(req, res) {
         });
       });
 
-    Promise.all(promises);
+    await Promise.all(promises);
 
     res.status(200).json({
       user,
