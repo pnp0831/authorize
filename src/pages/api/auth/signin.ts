@@ -33,7 +33,7 @@ export default async function handler(req, res) {
         fetch(`${item}/api/auth/trigger`, {
           method: "POST",
           body: {
-            token: user.token,
+            token: bodyUser.token,
           },
           headers: { "content-type": "application/json" },
         });
