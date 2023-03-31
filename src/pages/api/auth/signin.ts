@@ -1,6 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
+import { NextApiResponse, NextApiRequest } from "next";
+import config from "../../../constants/config";
+import { setCookie } from "cookies-next";
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === "POST") {
     const body = {
       username: req.body.username || "pam",
@@ -29,17 +35,22 @@ export default async function handler(req, res) {
 
     const promises = Object.keys(process.env)
       .filter((item) => item.startsWith("NEXT_PUBLIC_DOMAIN"))
-      .map((item) => {
-        return fetch(`${process.env[item]}/api/auth/trigger`, {
+      .map(async (item) => {
+        return await fetch(`${process.env[item]}/api/auth/trigger`, {
           method: "POST",
           body: JSON.stringify({
             token: bodyUser.token,
           }),
           headers: { "content-type": "application/json" },
-        });
+        }).then((res) => res.json());
       });
 
-    await Promise.all(promises);
+    console.log("[r", process.env.NODE_ENV);
+    setCookie("accessToken", bodyUser.token, {
+      req,
+      res,
+      ...config.cookieConfig,
+    });
 
     res.status(200).json({
       user,

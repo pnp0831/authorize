@@ -1,4 +1,6 @@
-export default async function handler(req, res) {
+import { NextResponse, NextRequest } from "next/server";
+
+export default async function handler(req: NextRequest, res: NextResponse) {
   const token = req.headers.token;
 
   const hasUser = await fetch(
