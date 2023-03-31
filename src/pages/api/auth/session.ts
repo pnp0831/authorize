@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { NextApiResponse, NextApiRequest } from "next";
+
 import Cors from "cors";
 
 const cors = Cors({
