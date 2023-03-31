@@ -32,9 +32,9 @@ export default async function handler(req, res) {
       .map((item) => {
         return fetch(`${item}/api/auth/trigger`, {
           method: "POST",
-          body: {
+          body: JSON.stringify({
             token: bodyUser.token,
-          },
+          }),
           headers: { "content-type": "application/json" },
         });
       });
