@@ -30,7 +30,7 @@ export default async function handler(req, res) {
     const promises = Object.keys(process.env)
       .filter((item) => item.startsWith("NEXT_PUBLIC_DOMAIN"))
       .map((item) => {
-        fetch(`${item}/api/auth/trigger`, {
+        return fetch(`${item}/api/auth/trigger`, {
           method: "POST",
           body: {
             token: bodyUser.token,
