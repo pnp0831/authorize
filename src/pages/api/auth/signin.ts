@@ -27,6 +27,20 @@ export default async function handler(req, res) {
       }
     ).then((res) => res.json());
 
+    const promises = Object.keys(process.env)
+      .filter((item) => item.startsWith("NEXT_PUBLIC_DOMAIN"))
+      .map((item) => {
+        fetch(`${NEXT_PUBLIC_DOMAIN}/api/auth/trigger`, {
+          method: "POST",
+          body: {
+            token: user.token,
+          },
+          headers: { "content-type": "application/json" },
+        });
+      });
+
+    Promise.all(promises);
+
     res.status(200).json({
       user,
       accessToken: user.token,
