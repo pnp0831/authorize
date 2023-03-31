@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse, NextRequest } from "next/server";
+import { NextApiResponse, NextApiRequest } from "next";
 import Cors from "cors";
 
 const cors = Cors({
@@ -24,7 +24,10 @@ function runMiddleware(
   });
 }
 
-export default async function handler(req: NextRequest, res: NextResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   await runMiddleware(req, res, cors);
   const token = req.headers.token;
 

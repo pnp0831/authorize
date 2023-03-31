@@ -1,6 +1,9 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextApiResponse, NextApiRequest } from "next";
 
-export default async function handler(req: NextRequest, res: NextResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const token = req.headers.token;
 
   const hasUser = await fetch(
