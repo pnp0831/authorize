@@ -50,6 +50,8 @@ export default async function handler(
           token: bodyUser.token,
         },
       }).then((res) => res.json());
+
+      console.log('"a', a);
     }
 
     const serializedCookie = serialize(
