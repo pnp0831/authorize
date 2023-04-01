@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { NextApiResponse, NextApiRequest } from "next";
 import config from "../../../constants/config";
 import { setCookie } from "cookies-next";
+import { serialize } from "cookie";
 
 export default async function handler(
   req: NextApiRequest,
@@ -41,16 +42,20 @@ export default async function handler(
           body: JSON.stringify({
             token: bodyUser.token,
           }),
-          headers: { "content-type": "application/json" },
+          headers: {
+            "content-type": "application/json",
+            token: bodyUser.token,
+          },
         }).then((res) => res.json());
       });
 
-    console.log("[r", process.env.NODE_ENV);
-    setCookie("accessToken", bodyUser.token, {
-      req,
-      res,
-      ...config.cookieConfig,
-    });
+    const serializedCookie = serialize(
+      "accessToken",
+      user.token,
+      config.cookieConfig
+    );
+
+    res.setHeader("Set-Cookie", serializedCookie);
 
     res.status(200).json({
       user,
