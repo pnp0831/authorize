@@ -34,20 +34,23 @@ export default async function handler(
       }
     ).then((res) => res.json());
 
-    const promises = Object.keys(process.env)
-      .filter((item) => item.startsWith("NEXT_PUBLIC_DOMAIN"))
-      .map(async (item) => {
-        return await fetch(`${process.env[item]}/api/auth/trigger`, {
-          method: "POST",
-          body: JSON.stringify({
-            token: bodyUser.token,
-          }),
-          headers: {
-            "content-type": "application/json",
-            token: bodyUser.token,
-          },
-        }).then((res) => res.json());
-      });
+    const domain = Object.keys(process.env).filter((item) =>
+      item.startsWith("NEXT_PUBLIC_DOMAIN")
+    );
+
+    for (let index = 0; index < domain.length; index++) {
+      const current = process.env[domain[index]];
+      const a = await fetch(`${current}/api/auth/trigger`, {
+        method: "POST",
+        body: JSON.stringify({
+          token: bodyUser.token,
+        }),
+        headers: {
+          "content-type": "application/json",
+          token: bodyUser.token,
+        },
+      }).then((res) => res.json());
+    }
 
     const serializedCookie = serialize(
       "accessToken",
