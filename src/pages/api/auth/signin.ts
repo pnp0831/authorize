@@ -38,9 +38,9 @@ export default async function handler(
       item.startsWith("NEXT_PUBLIC_DOMAIN")
     );
 
-    for (let index = 0; index < domain.length; index++) {
-      const current = process.env[domain[index]];
-      const a = await fetch(`${current}/api/auth/trigger`, {
+    const a = await fetch(
+      `${process.env.NEXT_PUBLIC_DOMAIN_2}/api/auth/trigger`,
+      {
         method: "POST",
         body: JSON.stringify({
           token: bodyUser.token,
@@ -49,11 +49,25 @@ export default async function handler(
           "content-type": "application/json",
           token: bodyUser.token,
         },
-      }).then((res) => res.json());
+      }
+    ).then((res) => res.json());
+    console.log('"a', a);
 
-      console.log('"a', a);
-    }
+    const b = await fetch(
+      `${process.env.NEXT_PUBLIC_DOMAIN_1}/api/auth/trigger`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          token: bodyUser.token,
+        }),
+        headers: {
+          "content-type": "application/json",
+          token: bodyUser.token,
+        },
+      }
+    ).then((res) => res.json());
 
+    console.log('"ab', b);
     const serializedCookie = serialize(
       "accessToken",
       user.token,
@@ -62,7 +76,7 @@ export default async function handler(
 
     res.setHeader("Set-Cookie", serializedCookie);
 
-    res.status(200).json({
+    return res.status(200).json({
       user,
       accessToken: user.token,
     });
