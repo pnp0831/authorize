@@ -4,7 +4,7 @@ const config = {
     domain:
       process.env.NODE_ENV === "development"
         ? "localhost"
-        : process.ENV.NEXT_DOMAIN || ".vercel.app",
+        : process.env.NEXT_PUBLIC_AUTH_URL || ".vercel.app",
     httpOnly: false,
   },
 };
