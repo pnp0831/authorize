@@ -1,6 +1,5 @@
 import Cors from "cors";
-import { serialize, parse } from "cookie";
-import { getCookie } from "cookies-next";
+import DeviceDetector from "device-detector-js";
 
 const cors = Cors({
   methods: ["POST", "GET", "HEAD"],
@@ -20,13 +19,22 @@ function runMiddleware(req, res, fn) {
   });
 }
 
+const parseUserAgent = (userAgent) => {
+  const deviceDetector = new DeviceDetector();
+
+  const device = deviceDetector.parse(userAgent);
+
+  return device;
+};
+
 export default async function handler(req, res) {
   await runMiddleware(req, res, cors);
   const accessToken = req.headers.accesstoken || req.headers.accessToken;
+  const deviceId = req.headers.deviceid || req.headers.deviceId;
 
   // Parse the cookie header into an object
   const hasUser = await fetch(
-    `https://641031d1864814e5b649fc8e.mockapi.io/api/auth?limit=1&page=1`,
+    `https://641031d1864814e5b649fc8e.mockapi.io/api/auth?limit=1&page=1&deviceId=${deviceId}`,
     {
       method: "GET",
     }

@@ -4,10 +4,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const accessToken = req.headers.accesstoken || req.headers.accessToken;
+  const deviceId = req.body.deviceId;
   const userId = req.body.userId;
 
   const hasUsers = await fetch(
-    `https://641031d1864814e5b649fc8e.mockapi.io/api/auth`,
+    `https://641031d1864814e5b649fc8e.mockapi.io/api/auth?limit=1&page=1&userId=${userId}&accessToken=${accessToken}&deviceId=${deviceId}`,
     {
       method: "GET",
     }

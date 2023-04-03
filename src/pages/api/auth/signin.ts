@@ -28,12 +28,12 @@ export default async function handler(
       name: req.body.name,
       email: req.body.email,
       userId: req.body.userId,
+      id: req.body.userId,
       accessToken: req.body.accessToken,
-      username: req.body.name,
+      expired: req.body.expired,
+      deviceId: req.body.deviceId,
+      image: req.body.image,
     };
-
-    console.log("req", req.body);
-    console.log("bodyUser", bodyUser);
 
     const user = await fetch(
       "https://641031d1864814e5b649fc8e.mockapi.io/api/auth",
