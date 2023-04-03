@@ -8,12 +8,19 @@ export default async function handler(
   const deviceId = req.body.deviceId;
   const userId = req.body.userId;
 
-  const hasUsers = await fetch(
-    `https://641031d1864814e5b649fc8e.mockapi.io/api/auth?limit=1&page=1&userId=${userId}&accessToken=${accessToken}&deviceId=${deviceId}`,
-    {
-      method: "GET",
-    }
-  ).then((res) => res.json());
+  let url = `https://641031d1864814e5b649fc8e.mockapi.io/api/auth?limit=1&page=1deviceId=${deviceId}`;
+
+  if (userId) {
+    url = `${url}&userId=${userId}`;
+  }
+
+  if (accessToken) {
+    url = `${url}&accessToken=${accessToken}&`;
+  }
+
+  const hasUsers = await fetch(url, {
+    method: "GET",
+  }).then((res) => res.json());
 
   const promise = hasUsers.map((item) =>
     fetch(`https://641031d1864814e5b649fc8e.mockapi.io/api/auth/${item.id}`, {

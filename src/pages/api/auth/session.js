@@ -31,7 +31,7 @@ export default async function handler(req, res) {
   await runMiddleware(req, res, cors);
   const accessToken = req.headers.accesstoken || req.headers.accessToken;
   const deviceId = req.headers.deviceid || req.headers.deviceId;
-
+  console.log("session");
   let url = `https://641031d1864814e5b649fc8e.mockapi.io/api/auth?limit=1&page=1&deviceId=${deviceId}`;
 
   if (accessToken) {

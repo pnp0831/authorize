@@ -9,6 +9,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
+    console.log("signin");
     const hasUsers = await fetch(
       `https://641031d1864814e5b649fc8e.mockapi.io/api/auth`,
       {
