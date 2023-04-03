@@ -26,7 +26,7 @@ export default async function handler(req, res) {
 
   // Parse the cookie header into an object
   const hasUser = await fetch(
-    `https://641031d1864814e5b649fc8e.mockapi.io/api/auth?token=${accessToken}&limit=1&page=1`,
+    `https://641031d1864814e5b649fc8e.mockapi.io/api/auth?limit=1&page=1`,
     {
       method: "GET",
     }
