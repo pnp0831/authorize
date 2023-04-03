@@ -32,13 +32,16 @@ export default async function handler(req, res) {
   const accessToken = req.headers.accesstoken || req.headers.accessToken;
   const deviceId = req.headers.deviceid || req.headers.deviceId;
 
+  let url = `https://641031d1864814e5b649fc8e.mockapi.io/api/auth?limit=1&page=1&deviceId=${deviceId}`;
+
+  if (accessToken) {
+    url = `${url}&accessToken=${accessToken}`;
+  }
+
   // Parse the cookie header into an object
-  const hasUser = await fetch(
-    `https://641031d1864814e5b649fc8e.mockapi.io/api/auth?limit=1&page=1&deviceId=${deviceId}`,
-    {
-      method: "GET",
-    }
-  ).then((res) => res.json());
+  const hasUser = await fetch(url, {
+    method: "GET",
+  }).then((res) => res.json());
 
   const user = hasUser?.[0];
 
