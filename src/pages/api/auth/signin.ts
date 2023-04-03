@@ -9,20 +9,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const body = {
-      username: req.body.username || "pam",
-      password: req.body.password || "123456",
-    };
-
-    const date = new Date();
-    date.setDate(date.getDate() + 1);
-
     const bodyUser = {
-      ...body,
-      expired: date,
-      token: uuidv4(),
-      name: body.username,
-      email: `${body.username}@gmail.com`,
+      name: req.body.name,
+      email: req.body.email,
+      userId: req.body.userId,
+      accessToken: req.body.accessToken,
+      username: req.body.name,
     };
 
     const user = await fetch(
@@ -34,51 +26,6 @@ export default async function handler(
       }
     ).then((res) => res.json());
 
-    const domain = Object.keys(process.env).filter((item) =>
-      item.startsWith("NEXT_PUBLIC_DOMAIN")
-    );
-
-    const a = await fetch(
-      `${process.env.NEXT_PUBLIC_DOMAIN_2}/api/auth/trigger`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          token: bodyUser.token,
-        }),
-        headers: {
-          "content-type": "application/json",
-          token: bodyUser.token,
-        },
-      }
-    ).then((res) => res.json());
-    console.log('"a', a);
-
-    const b = await fetch(
-      `${process.env.NEXT_PUBLIC_DOMAIN_1}/api/auth/trigger`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          token: bodyUser.token,
-        }),
-        headers: {
-          "content-type": "application/json",
-          token: bodyUser.token,
-        },
-      }
-    ).then((res) => res.json());
-
-    console.log('"ab', b);
-    const serializedCookie = serialize(
-      "accessToken",
-      user.token,
-      config.cookieConfig
-    );
-
-    res.setHeader("Set-Cookie", serializedCookie);
-
-    return res.status(200).json({
-      user,
-      accessToken: user.token,
-    });
+    return res.status(200).json(user);
   }
 }

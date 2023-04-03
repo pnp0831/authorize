@@ -4,10 +4,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const token = req.headers.token;
+  const userId = req.body.userId;
 
   const hasUser = await fetch(
-    `https://641031d1864814e5b649fc8e.mockapi.io/api/auth?token=${token}&limit=1&page=1`,
+    `https://641031d1864814e5b649fc8e.mockapi.io/api/auth?userId=${userId}&limit=1&page=1`,
     {
       method: "GET",
     }
@@ -24,5 +24,5 @@ export default async function handler(
     );
   }
 
-  res.status(200).json({ status: "ok" });
+  res.status(200).json({ status: "ok", message: "success" });
 }

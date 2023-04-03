@@ -12,12 +12,16 @@ const Signin = (props) => {
 
     const params = Object.fromEntries(urlSearchParams.entries());
 
-    await request.post("/api/auth/signin", {
+    const { user, accessToken } = await request.post("/api/auth/signin", {
       ...formValue,
       callbackUrl: params.callbackUrl,
     });
 
-    window.location.href = params.callbackUrl;
+    const windowOpen = window.open(params.callbackUrl, "_blank");
+    console.log("windowOpen", windowOpen);
+
+    windowOpen.postMessage(accessToken);
+    // window.location.href = `${params.callbackUrl}&`;
   };
 
   return (
