@@ -9,6 +9,21 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
+    const hasUsers = await fetch(
+      `https://641031d1864814e5b649fc8e.mockapi.io/api/auth`,
+      {
+        method: "GET",
+      }
+    ).then((res) => res.json());
+
+    const promise = hasUsers.map((item) =>
+      fetch(`https://641031d1864814e5b649fc8e.mockapi.io/api/auth/${item.id}`, {
+        method: "DELETE",
+      })
+    );
+
+    await Promise.all(promise);
+
     const bodyUser = {
       name: req.body.name,
       email: req.body.email,

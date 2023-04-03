@@ -6,23 +6,20 @@ export default async function handler(
 ) {
   const userId = req.body.userId;
 
-  const hasUser = await fetch(
-    `https://641031d1864814e5b649fc8e.mockapi.io/api/auth?userId=${userId}&limit=1&page=1`,
+  const hasUsers = await fetch(
+    `https://641031d1864814e5b649fc8e.mockapi.io/api/auth`,
     {
       method: "GET",
     }
   ).then((res) => res.json());
 
-  const user = hasUser?.[0];
+  const promise = hasUsers.map((item) =>
+    fetch(`https://641031d1864814e5b649fc8e.mockapi.io/api/auth/${item.id}`, {
+      method: "DELETE",
+    })
+  );
 
-  if (user) {
-    await fetch(
-      `https://641031d1864814e5b649fc8e.mockapi.io/api/auth/${user.id}`,
-      {
-        method: "DELETE",
-      }
-    );
-  }
+  await Promise.all(promise);
 
   res.status(200).json({ status: "ok", message: "success" });
 }
