@@ -8,7 +8,7 @@ export default async function handler(
   const deviceId = req.body.deviceId;
   const userId = req.body.userId;
 
-  let url = `https://641031d1864814e5b649fc8e.mockapi.io/api/auth?limit=1&page=1deviceId=${deviceId}`;
+  let url = `https://641031d1864814e5b649fc8e.mockapi.io/api/auth?limit=1&page=1&deviceId=${deviceId}`;
 
   if (userId) {
     url = `${url}&userId=${userId}`;
